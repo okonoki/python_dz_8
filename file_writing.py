@@ -4,7 +4,6 @@
 и Вы должны реализовать функционал для изменения и удаления данных.
 '''
 
-
 from os.path import exists
 from csv import DictReader, DictWriter
 
@@ -13,7 +12,7 @@ def get_info():
     info = []
     first_name = input('Введите имя пользователя: ')
     last_name = input('Введите фамилию пользователя: ')
-    data = read_file()
+    data = read_file('phone.csv')
     now_number_row = len(data) + 1
     info.append(now_number_row)
     info.append(first_name)
@@ -33,8 +32,8 @@ def get_info():
     return info
 
 
-def create_file():  # создание пустого файла с шапкой
-    with open('phone.csv', 'w', encoding='utf-8') as data:
+def create_file(file_name):  # создание пустого файла с шапкой
+    with open(file_name, 'w', encoding='utf-8') as data:
         f_n_writer = DictWriter(data, fieldnames=['№', 'Имя', 'Фамилия', 'Номер'])
         f_n_writer.writeheader()
 
@@ -52,8 +51,8 @@ def write_file(lst):
     print("Строка успешно записана!")
 
 
-def read_file():
-    with open('phone.csv', 'r', encoding='utf-8') as f_n:
+def read_file(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f_n:
         f_n_reader = DictReader(f_n)
         res = list(f_n_reader)
         # print(len(res))  # длина списка равна 0
@@ -61,7 +60,7 @@ def read_file():
 
 
 def change_row():
-    data = read_file()
+    data = read_file('phone.csv')
     print(*data)
     count_rows = len(data)
     number_row = int(input(f"Введите номер строки, которую хотите изменить от 1 до {count_rows}: "))
@@ -90,7 +89,7 @@ def change_row():
 
 
 def delete_row():
-    data = read_file()
+    data = read_file('phone.csv')
     print(*data)
     count_rows = len(data)
     number_row = int(input(f"Введите номер строки, которую хотите удалить от 1 до {count_rows}: "
@@ -121,10 +120,10 @@ def main():
             if not exists('phone.csv'):
                 print('Файл не создан')
                 break
-            print(*read_file())
+            print(*read_file('phone.csv'))
         elif command == 'w':
             if not exists('phone.csv'):
-                create_file()
+                create_file('phone.csv')
                 record_info()
             else:
                 record_info()
